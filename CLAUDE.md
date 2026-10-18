@@ -1,12 +1,27 @@
 # Repo instructions
 
-This repo holds Reza's personal working notes.
+This repo is Reza's research vault for designing a company "OS" (GTM data integration, ingestion, identity resolution, workers/agents, and eventually actions from a dashboard). It is meant to be opened as an **Obsidian vault**.
 
-## Living documents
+## Note format (required for every document in this repo)
 
-`notes/gtm-unified-dashboard-architecture.md` is a living document from an ongoing architecture tutoring discussion (GTM unified dashboard: data integration, ingestion, identity resolution, and eventually actions from the dashboard).
+- **Small notes, one concept each**, in `notes/`. File name = note title (spaces allowed, e.g. `Identity Resolution.md`).
+- **YAML properties block** at the top of every note:
+  ```yaml
+  ---
+  tags: [gtm-os, <area>]
+  status: seed | growing | evergreen
+  created: YYYY-MM-DD
+  updated: YYYY-MM-DD
+  aliases: [...]   # optional
+  ---
+  ```
+- **Link with wikilinks**: `[[Note Title]]`, `[[Note Title#Heading]]`, `[[Note Title|label]]`. Every note links to at least one related note.
+- The hub is `notes/GTM OS - Map of Content.md`. Add every new note to it, and keep its "Current position" section accurate.
+- Use Obsidian callouts where useful (`> [!warning]`, `> [!todo]`), and `- [ ]` tasks in `Open Threads.md`.
 
-- This GitHub file is the single source of truth. An older Claude Docs copy exists (claude.ai artifact d97bce51-deb7-437d-853b-4f115289ddaa) and is frozen; do not update it.
-- Whenever a session continues that discussion, update this file with the new material before finishing: add or extend sections, keep the numbering consistent, move resolved items out of "Open threads", and bump "Last updated".
-- Keep the existing voice: precise terminology in **bold**, corrections stated plainly, recommendations explicit.
+## Keeping it current
+
+- This repo is the single source of truth. An older Claude Docs copy (claude.ai artifact d97bce51-deb7-437d-853b-4f115289ddaa) is frozen; do not update it.
+- Whenever a session continues the discussion, capture the new material before finishing: extend the relevant notes or add new ones, update `Open Threads.md` (move resolved items to "Resolved"), and bump `updated`.
+- Keep the voice: precise terminology in **bold**, corrections stated plainly, decisions marked explicitly.
 - Commit with a short message describing what was added, and push to `main`.
