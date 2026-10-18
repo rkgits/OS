@@ -1,6 +1,8 @@
 # GTM Unified Dashboard — Architecture Notes
 
-Oct 15, 2026 · Reza
+Started Oct 15, 2026 · Last updated Oct 18, 2026 · Reza
+
+*Living document: updated as the architecture discussion continues.*
 
 A working brief on how to architect a holistic analytics dashboard that pulls data from many fragmented go-to-market systems (Clay, Smart Lead, HeyReach, CRM) into one place for visualization and, eventually, action.
 
@@ -131,9 +133,57 @@ Model it as a two-layer hierarchy, a one-to-many relationship:
 
 **Watch out — people change companies.** A person's account link must change over time without erasing what they did at the old company. That is a **slowly changing dimension**; ignore it and your historical account numbers quietly rot.
 
-## 8. Open threads / next questions
+## 8. The ingestion framework (how the pipes actually get built)
 
-- How to keep ingestion from becoming twenty bespoke custom integrations (a connector framework / standardization layer).
+### Two corrections first
+
+**The dashboard must not call vendor APIs.** Having the dashboard pull from Smart Lead, HeyReach and the rest on demand is Approach A again, the live-querying model already rejected. It ties the display layer to twenty vendors' uptime. The principle is **separation of concerns**: the dashboard reads only from Supabase, and a separate **ingestion layer** keeps Supabase filled.
+
+**Your n8n flows are two different jobs wearing one coat.**
+
+- **Extraction**: copying a vendor's records into your database (Smart Lead's campaign stats, HeyReach's message events). Dumb, repetitive, high-volume.
+- **Enrichment orchestration**: a multi-step workflow that reasons about one record (a sign-up arrives → spam check → domain research → LinkedIn lookup → write the result). Low volume, many steps, branching logic.
+
+Running both through a tool that bills per execution is part of why the n8n bill hurts: extraction generates huge volumes of trivial executions.
+
+### The four options
+
+1. **Managed ELT connectors** (Airbyte, Fivetran). A library of ready-made pipes. Each already knows how to talk to one vendor. You give it credentials, point it at Supabase, set a schedule, and it copies new and changed records itself, handling pagination, incremental sync and retries. No code. *Weakness:* the library covers popular tools; niche GTM tools like HeyReach are often missing.
+2. **Self-hosted n8n.** The same n8n you know, run on your own server. The community edition is not billed per execution, so cost becomes a flat server bill. *Trade-off:* you now look after that server, and n8n is still a poor fit for bulk extraction.
+3. **Code-first orchestrator** (Trigger.dev, Prefect, Dagster). You write each connector as a small function ("call this API, take the results, save them"). The orchestrator is the manager around your code: it schedules runs, retries failures and keeps logs.
+4. **Fully custom** (Supabase Edge Functions scheduled with pg_cron). The same small functions, run by you. Cheapest, but with no manager around it, every failure is yours to notice and handle.
+
+**Recommendation: hybrid.** Managed connectors (Airbyte) wherever one exists; a code-first orchestrator for everything else, including the enrichment workflows.
+
+### Trigger.dev in detail
+
+Trigger.dev is a platform for **background jobs**: work that runs behind the scenes with nobody watching a screen. You write the work in TypeScript as units called **tasks** (e.g. "pull yesterday's Smart Lead stats and upsert into Supabase").
+
+What starts a task is its **trigger**:
+
+1. **A schedule** (every night at 2 a.m.) → this is your polling.
+2. **An event** (a webhook when someone joins the subscription list) → this is your push.
+3. **Another task** → chaining; spam check → domain research → LinkedIn lookup becomes one workflow.
+
+The safety net it provides around your code:
+
+- **Retries**: a failed vendor call is retried automatically.
+- **Queues / concurrency limits**: cap how many tasks run at once, which keeps you under vendor rate limits.
+- **Run logs**: every run is recorded, so you can see exactly which step broke.
+
+**Cost model (verify on their pricing page; these change):** billed mainly on compute time used, not per step as n8n is. Open source, so self-hosting is possible.
+
+**The honest catch:** no drag-and-drop canvas. You write code, realistically with an AI coding assistant doing much of it.
+
+### Still to decide
+
+- Which hurts more today: the n8n **cost** or the **fragility** of the workflows? (Cost alone → self-host n8n may be enough. Fragility → move to code-first.)
+- Comfort level writing TypeScript, directly or with an AI assistant.
+- A per-source inventory: which of the 20–40 systems Airbyte already covers.
+
+## 9. Open threads / next questions
+
+- A shared connector pattern so the custom connectors don't become twenty one-offs (common interface: auth, incremental cursor, pagination, raw landing table). Started in section 8.
 - Real-time versus good-enough tradeoffs, source by source.
 - The matching logic in depth — thresholds, and a review queue for uncertain matches.
 - Moving from visualization to **action** from the dashboard — and how to do it without welding the insight and action planes together.
