@@ -41,4 +41,6 @@ Same layered pattern as [[Identity Resolution]]:
 ## Personal data
 IP, country, user-agent and time zone are personal data (e.g. under GDPR). They're fine in the raw staging table with limited access; the [[Telemetry Module]] keeps them **out of technical logs**.
 
+Build ticket: [[Ticket - Form Intake v0]].
+
 Related: [[Form Submission Contract]], [[Ingestion Models]].

@@ -41,6 +41,7 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 ## Builds
 - [[Form Intake Pipeline]]: first real build, website form → receiver → spam decision → business events
 - [[Form Submission Contract]]: the webhook payload, plus the CloudEvents and Standard Webhooks standards
+- [[Ticket - Form Intake v0]]: self-contained build ticket for Claude Code
 
 ## Open
 - [[Open Threads]]
