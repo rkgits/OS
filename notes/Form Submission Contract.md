@@ -65,7 +65,7 @@ Subscribe form: `"fields": { "email": "…" }`. Test event: `form: "test"`, mini
 **Recommendation:** v1 = this payload in a CloudEvents envelope, delivered with Standard Webhooks headers. Small plugin change; no home-made format.
 
 ## Questions for the plugin code
-- Does it sign requests today? With what header?
+- ~~Does it sign requests today?~~ **Yes**: `X-Galliot-Signature`. Not yet verified by the receiver.
 - Does it retry on failure? How often, and does it reuse the same `event_id`?
 
 Used by [[Form Intake Pipeline]].

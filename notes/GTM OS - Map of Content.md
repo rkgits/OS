@@ -41,7 +41,6 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 ## Builds
 - [[Form Intake Pipeline]]: first real build, website form → receiver → spam decision → business events
 - [[Form Submission Contract]]: the webhook payload, plus the CloudEvents and Standard Webhooks standards
-- [[Ticket - Form Intake v0]]: self-contained build ticket for Claude Code
 
 ## Open
 - [[Open Threads]]
@@ -52,4 +51,4 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 - Ingestion engine **not decided**: a code-first orchestrator is the default; candidates are Trigger.dev, Inngest, Temporal, self-hosted n8n, fully custom.
 - The dashboard reads only from Supabase, never from vendor APIs.
 - Observability: two streams (technical logs, business events), one core-minted correlation ID, a shared telemetry module; start with the orchestrator's built-in logs + Slack alerts + a Supabase event table.
-- First build: [[Form Intake Pipeline]] for galliot.us forms. A free Trigger.dev account exists; the webhook isn't configured yet. Contract standards: CloudEvents + Standard Webhooks.
+- First build: [[Form Intake Pipeline]], **built (v0)** in `galliot-us/GTM-Engine` ([issue #1](https://github.com/galliot-us/GTM-Engine/issues/1)). Contract standards: CloudEvents + Standard Webhooks.

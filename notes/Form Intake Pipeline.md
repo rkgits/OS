@@ -10,8 +10,11 @@ aliases: [website form webhook, first build]
 
 **The first real build:** website form submissions (Galliot Forms, a custom WordPress plugin on galliot.us) → spam decision → business events. Everything else gets built around the patterns proven here.
 
-## Today
-The plugin has a webhook option (*Settings > Galliot Forms*). None is configured, so submissions fall back to **email**. The plugin also has a **Send test event** button.
+## Status
+**v0 is built** in `galliot-us/GTM-Engine`: Supabase Edge Function receiver → Trigger.dev task → rule-based spam decision → result email → business events. The ticket is [issue #1](https://github.com/galliot-us/GTM-Engine/issues/1); remaining gaps are tracked in that repo, not here.
+
+> [!warning] Correction
+> The assumption "the plugin doesn't sign requests" was wrong. It can already sign (`X-Galliot-Signature`); the receiver just doesn't verify it yet, so a URL token is the only check.
 
 ## Correction
 "Build on top of Trigger.dev". The phrase should be **build *on* it, not around it** ([[Engine vs Core]]).
@@ -41,6 +44,6 @@ Same layered pattern as [[Identity Resolution]]:
 ## Personal data
 IP, country, user-agent and time zone are personal data (e.g. under GDPR). They're fine in the raw staging table with limited access; the [[Telemetry Module]] keeps them **out of technical logs**.
 
-Build ticket: [[Ticket - Form Intake v0]].
+Build ticket: [GTM-Engine #1](https://github.com/galliot-us/GTM-Engine/issues/1).
 
 Related: [[Form Submission Contract]], [[Ingestion Models]].
