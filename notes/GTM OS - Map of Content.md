@@ -31,6 +31,13 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 - [[Worker Coordination]]: contracts, orchestration vs choreography, AI agents
 - [[Engine vs Core]]: build *on* a tool, never *around* it
 
+## Observability
+- [[Observability]]: logs, metrics, traces, what good logging looks like, tiers of tooling
+- [[Two Log Streams]]: technical logs vs business events, split by audience
+- [[Correlation ID]]: tracing without a tracing tool; the core mints it, not the engine
+- [[Telemetry Module]]: the small shared logging component every worker calls
+- [[OpenTelemetry]]: the vendor-neutral standard that keeps backends swappable
+
 ## Open
 - [[Open Threads]]
 
@@ -39,3 +46,4 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 - Architecture decided: shared data model, event log, explicit worker contracts, logic in owned code ([[Engine vs Core]]).
 - Ingestion engine **not decided**: a code-first orchestrator is the default; candidates are Trigger.dev, Inngest, Temporal, self-hosted n8n, fully custom.
 - The dashboard reads only from Supabase, never from vendor APIs.
+- Observability: two streams (technical logs, business events), one core-minted correlation ID, a shared telemetry module; start with the orchestrator's built-in logs + Slack alerts + a Supabase event table.
