@@ -7,6 +7,10 @@ updated: 2026-10-19
 
 # Open Threads
 
+- [ ] Read the Galliot Forms webhook code (in `galliot-us/galliot-website`?): signing, retries, real payload ([[Form Submission Contract]]).
+- [ ] Build the webhook receiver and capture a real **Send test event** delivery ([[Form Intake Pipeline]]).
+- [ ] Define v1 of the contract: CloudEvents envelope + Standard Webhooks headers + version field.
+- [ ] Write the first spam rules and pick the two thresholds.
 - [ ] Fair comparison note: Trigger.dev vs Inngest vs Temporal vs self-hosted n8n vs fully custom.
 - [ ] Design one example connector (e.g. Smart Lead) engine-agnostically, following [[Engine vs Core]].
 - [ ] A shared connector pattern so custom connectors don't become twenty one-offs (common interface: auth, incremental cursor, pagination, raw landing table).

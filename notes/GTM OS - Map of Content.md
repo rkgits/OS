@@ -38,6 +38,10 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 - [[Telemetry Module]]: the small shared logging component every worker calls
 - [[OpenTelemetry]]: the vendor-neutral standard that keeps backends swappable
 
+## Builds
+- [[Form Intake Pipeline]]: first real build, website form → receiver → spam decision → business events
+- [[Form Submission Contract]]: the webhook payload, plus the CloudEvents and Standard Webhooks standards
+
 ## Open
 - [[Open Threads]]
 
@@ -47,3 +51,4 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 - Ingestion engine **not decided**: a code-first orchestrator is the default; candidates are Trigger.dev, Inngest, Temporal, self-hosted n8n, fully custom.
 - The dashboard reads only from Supabase, never from vendor APIs.
 - Observability: two streams (technical logs, business events), one core-minted correlation ID, a shared telemetry module; start with the orchestrator's built-in logs + Slack alerts + a Supabase event table.
+- First build: [[Form Intake Pipeline]] for galliot.us forms. A free Trigger.dev account exists; the webhook isn't configured yet. Contract standards: CloudEvents + Standard Webhooks.
