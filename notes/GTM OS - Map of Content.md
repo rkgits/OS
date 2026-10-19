@@ -2,7 +2,7 @@
 tags: [moc, gtm-os]
 status: growing
 created: 2026-10-15
-updated: 2026-10-18
+updated: 2026-10-19
 aliases: [GTM OS MOC, Home]
 ---
 
@@ -34,7 +34,8 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 ## Open
 - [[Open Threads]]
 
-## Current position (Oct 18, 2026)
+## Current position (Oct 19, 2026)
 - Central store: **Supabase (Postgres)**.
-- Ingestion: hybrid — Airbyte where a connector exists, **Trigger.dev** for the rest and for enrichment. Pilot: one Smart Lead connector.
+- Architecture decided: shared data model, event log, explicit worker contracts, logic in owned code ([[Engine vs Core]]).
+- Ingestion engine **not decided**: a code-first orchestrator is the default; candidates are Trigger.dev, Inngest, Temporal, self-hosted n8n, fully custom.
 - The dashboard reads only from Supabase, never from vendor APIs.

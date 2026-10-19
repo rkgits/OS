@@ -2,7 +2,7 @@
 tags: [gtm-os, ingestion, decision]
 status: growing
 created: 2026-10-18
-updated: 2026-10-18
+updated: 2026-10-19
 ---
 
 # Ingestion Layer Options
@@ -20,7 +20,10 @@ updated: 2026-10-18
 3. **Code-first orchestrator** ([[Trigger.dev]], Inngest, Prefect, Dagster): connectors as small functions; the platform schedules, retries and logs.
 4. **Fully custom** (Supabase Edge Functions + pg_cron): cheapest; every failure is yours to catch.
 
-## Decision ✅
-Both pains are real (cost *and* fragility), which points past self-hosted n8n to a **hybrid**: Airbyte wherever a connector exists, Trigger.dev for everything else and for enrichment. Pilot with **one Smart Lead connector**.
+## Current position (research, not a commitment)
+**The architecture is decided; the engine is not.** Both pains are real (cost *and* fragility), so a **code-first orchestrator** is a reasonable default, likely alongside managed connectors (Airbyte) where they exist. [[Trigger.dev]] is one candidate, not the choice.
 
-The tool is still a replaceable part: [[Engine vs Core]].
+> [!warning] Correction (Oct 18)
+> Earlier versions of these notes marked Trigger.dev as "the decision" and planned a pilot on it. That overstated things: it was used as the worked example, without a fair comparison. Inngest, Temporal, self-hosted n8n and fully custom (Supabase + cron) are all still live options.
+
+Per [[Engine vs Core]], the tool choice matters *less* than the data model, the event log and the worker contracts, because the engine is a swappable part.
