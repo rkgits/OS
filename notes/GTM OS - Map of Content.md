@@ -21,6 +21,8 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 - [[Per-Source Decision Framework]]: freshness, criticality, the vendor's integration surface
 - [[Ingestion Layer Options]]: managed connectors, self-hosted n8n, code-first orchestrators, fully custom
 - [[Trigger.dev]]: the recommended orchestrator, in depth
+- [[Webhook Ingress]]: receiver vs processor; the inbox pattern, store-then-process
+- [[Source Routing]]: many sources, one front door; per-source config; server vs public sources
 
 ## Making sense of it
 - [[Identity Resolution]]: one canonical ID per human; matching, thresholds, review queues
@@ -52,3 +54,4 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 - The dashboard reads only from Supabase, never from vendor APIs.
 - Observability: two streams (technical logs, business events), one core-minted correlation ID, a shared telemetry module; start with the orchestrator's built-in logs + Slack alerts + a Supabase event table.
 - First build: [[Form Intake Pipeline]], **built (v0)** in `galliot-us/GTM-Engine` ([issue #1](https://github.com/galliot-us/GTM-Engine/issues/1)). Contract standards: CloudEvents + Standard Webhooks.
+- Next: a second source, Life Science Tech Collective, through the same front door with its own onboarding workflow ([[Source Routing]]).

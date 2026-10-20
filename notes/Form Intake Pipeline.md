@@ -46,4 +46,6 @@ IP, country, user-agent and time zone are personal data (e.g. under GDPR). They'
 
 Build ticket: [GTM-Engine #1](https://github.com/galliot-us/GTM-Engine/issues/1).
 
+Why the receiver sits outside the engine: [[Webhook Ingress]]. Adding more sources: [[Source Routing]].
+
 Related: [[Form Submission Contract]], [[Ingestion Models]].

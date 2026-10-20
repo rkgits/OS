@@ -17,9 +17,12 @@ Learning and design questions only. Build work lives as issues in [GTM-Engine](h
 - [ ] Verify how Trigger.dev uses [[OpenTelemetry]] in its docs.
 - [ ] How the match score is built ([[Identity Resolution]]).
 - [ ] Real-time vs good-enough tradeoffs, source by source.
+- [ ] Newsletter platform: stay on Substack (manual/CSV) or move to one with an API? ([[Source Routing#Substack]])
 - [ ] Moving from visualization to **action** from the dashboard, without welding the insight and action planes together.
 
 ## Resolved
+- [x] Why does the webhook land on Supabase, not Trigger.dev? → [[Webhook Ingress]] (receiver vs processor).
+- [x] How to add a second website without building twice? → [[Source Routing]].
 - [x] First build → [[Form Intake Pipeline]] v0 built ([GTM-Engine #1](https://github.com/galliot-us/GTM-Engine/issues/1)).
 - [x] Which hurts more, n8n cost or fragility? → Both, so move to a code-first orchestrator ([[Ingestion Layer Options]]).
 - [x] Choose a tool vs build around it → [[Engine vs Core]].
