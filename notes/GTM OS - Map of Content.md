@@ -54,4 +54,4 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 - The dashboard reads only from Supabase, never from vendor APIs.
 - Observability: two streams (technical logs, business events), one core-minted correlation ID, a shared telemetry module, and a Supabase event table with four stable v0 events ([[Two Log Streams#The four v0 events]]). Failures email an alert. Gaps: the receiver's logging, and an alert channel independent of the mail path.
 - First build: [[Form Intake Pipeline]], **built (v0)** in `galliot-us/GTM-Engine` ([issue #1](https://github.com/galliot-us/GTM-Engine/issues/1)). The plugin **already signs** requests with its own HMAC scheme; the receiver doesn't verify it yet, and which scheme to standardise on is open ([[Form Submission Contract]]).
-- Next: a second source, Life Science Tech Collective, through the same front door with its own onboarding workflow ([[Source Routing]]).
+- Next: a second source, Life Science Tech Collective, through the same front door; v1 scope is **store + notify** only ([[Source Routing]], [GTM-Engine #3](https://github.com/galliot-us/GTM-Engine/issues/3)).
