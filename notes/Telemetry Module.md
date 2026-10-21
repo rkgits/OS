@@ -2,7 +2,7 @@
 tags: [gtm-os, observability, component]
 status: growing
 created: 2026-10-19
-updated: 2026-10-19
+updated: 2026-10-21
 aliases: [structured logger, logging wrapper, observability SDK]
 ---
 
@@ -39,5 +39,13 @@ Stages 2–4 are swappable tools. Make the module speak [[OpenTelemetry]] and th
 - **Instrumentation**: adding this logging to the workers.
 - **Telemetry module / observability SDK**: the module covering logs and events together.
 - **Event tracking**: the business-events part on its own.
+
+## v0 implementation
+The first worker uses a small module that follows the spec above: it reuses the incoming correlation ID, fills standard fields (time, worker, correlation ID, run ID), offers `info` / `warn` / `error` plus one `event` call, **redacts** secrets and personal data before anything is written, and **never throws**. Technical logs go to the orchestrator's run log; business events go to the Supabase event table through a small adapter, which keeps the module itself free of any engine or database code ([[Engine vs Core]]). Redaction and "never throws" have tests.
+
+## Where v0 stops
+- **The receiver is outside it.** The module is Node code; the receiver runs in a different runtime (Deno), so the first hop of every journey logs as plain text without the standard fields. Open design question: one shared module that runs in both, or two thin implementations of the same field contract. See [[Open Threads]].
+- **Standard fields are partial.** Time, worker, correlation ID and run ID are automatic; duration, status and action are not.
+- **Alerting is a separate concern.** Telemetry records a failure; something else must tell a human. v0 emails an alert when a run fails for good, through the same mail login as the results, so a mail outage would hide both ([[Form Intake Pipeline#Lessons from the first real submission]]).
 
 Related: [[Observability]].

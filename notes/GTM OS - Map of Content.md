@@ -2,7 +2,7 @@
 tags: [moc, gtm-os]
 status: growing
 created: 2026-10-15
-updated: 2026-10-19
+updated: 2026-10-21
 aliases: [GTM OS MOC, Home]
 ---
 
@@ -35,23 +35,23 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 
 ## Observability
 - [[Observability]]: logs, metrics, traces, what good logging looks like, tiers of tooling
-- [[Two Log Streams]]: technical logs vs business events, split by audience
+- [[Two Log Streams]]: technical logs vs business events, split by audience; the four v0 events
 - [[Correlation ID]]: tracing without a tracing tool; the core mints it, not the engine
-- [[Telemetry Module]]: the small shared logging component every worker calls
+- [[Telemetry Module]]: the small shared logging component every worker calls; what v0 covers and where it stops
 - [[OpenTelemetry]]: the vendor-neutral standard that keeps backends swappable
 
 ## Builds
-- [[Form Intake Pipeline]]: first real build, website form → receiver → spam decision → business events
-- [[Form Submission Contract]]: the webhook payload, plus the CloudEvents and Standard Webhooks standards
+- [[Form Intake Pipeline]]: first real build, **live (v0)**: website form → receiver → spam decision → email + business events; lessons from the first real submission
+- [[Form Submission Contract]]: the **verified** webhook payload, the plugin's own signing and retries, PHP quirks, plus the CloudEvents and Standard Webhooks standards
 
 ## Open
 - [[Open Threads]]
 
-## Current position (Oct 19, 2026)
+## Current position (Oct 21, 2026)
 - Central store: **Supabase (Postgres)**.
 - Architecture decided: shared data model, event log, explicit worker contracts, logic in owned code ([[Engine vs Core]]).
-- Ingestion engine **not decided**: a code-first orchestrator is the default; candidates are Trigger.dev, Inngest, Temporal, self-hosted n8n, fully custom.
+- Ingestion engine: **Trigger.dev runs the first production worker**, kept replaceable by [[Engine vs Core]]. The fair comparison with Inngest, Temporal, self-hosted n8n and fully custom is still open.
 - The dashboard reads only from Supabase, never from vendor APIs.
-- Observability: two streams (technical logs, business events), one core-minted correlation ID, a shared telemetry module; start with the orchestrator's built-in logs + Slack alerts + a Supabase event table.
-- First build: [[Form Intake Pipeline]], **built (v0)** in `galliot-us/GTM-Engine` ([issue #1](https://github.com/galliot-us/GTM-Engine/issues/1)). Contract standards: CloudEvents + Standard Webhooks.
+- Observability: two streams (technical logs, business events), one core-minted correlation ID, a shared telemetry module, and a Supabase event table with four stable v0 events ([[Two Log Streams#The four v0 events]]). Failures email an alert. Gaps: the receiver's logging, and an alert channel independent of the mail path.
+- First build: [[Form Intake Pipeline]], **built (v0)** in `galliot-us/GTM-Engine` ([issue #1](https://github.com/galliot-us/GTM-Engine/issues/1)). The plugin **already signs** requests with its own HMAC scheme; the receiver doesn't verify it yet, and which scheme to standardise on is open ([[Form Submission Contract]]).
 - Next: a second source, Life Science Tech Collective, through the same front door with its own onboarding workflow ([[Source Routing]]).

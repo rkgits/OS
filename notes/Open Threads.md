@@ -2,7 +2,7 @@
 tags: [gtm-os, todo]
 status: growing
 created: 2026-10-15
-updated: 2026-10-19
+updated: 2026-10-21
 ---
 
 # Open Threads
@@ -13,7 +13,10 @@ Learning and design questions only. Build work lives as issues in [GTM-Engine](h
 - [ ] Design one example connector (e.g. Smart Lead) engine-agnostically, following [[Engine vs Core]].
 - [ ] A shared connector pattern so custom connectors don't become twenty one-offs (common interface: auth, incremental cursor, pagination, raw landing table).
 - [ ] Per-source inventory of all 20–40 systems ([[Per-Source Decision Framework]]), including Airbyte coverage.
-- [ ] Design the **business event table**: which events exist, what each records, how the dashboard reads it ([[Two Log Streams]]).
+- [ ] **Which signing scheme to standardise on** across sources: verify the plugin's own `X-Galliot-Signature` HMAC (no plugin change), or move every source to Standard Webhooks (shared convention, library support, plugin change) ([[Form Submission Contract#Delivery: Standard Webhooks vs the plugin's own scheme]]).
+- [ ] **Telemetry in two runtimes:** one shared module that runs in both Node and Deno, or two thin implementations of one field contract ([[Telemetry Module#Where v0 stops]]).
+- [ ] **Who owns recovery?** When the receiver can't hand off to the engine, or a run fails for good, the submission sits in a table. Is reprocessing a scheduled sweeper, a manual replay, or part of the engine's retry? And which alert channel is independent of the mail path it watches ([[Form Intake Pipeline#Lessons from the first real submission]])?
+- [ ] Tuning the spam rules: how to use human overrides (`reviewed` events) to adjust weights and thresholds, and when the grey zone justifies an LLM judge ([[Form Intake Pipeline#The spam decision]]).
 - [ ] Verify how Trigger.dev uses [[OpenTelemetry]] in its docs.
 - [ ] How the match score is built ([[Identity Resolution]]).
 - [ ] Real-time vs good-enough tradeoffs, source by source.
@@ -21,6 +24,9 @@ Learning and design questions only. Build work lives as issues in [GTM-Engine](h
 - [ ] Moving from visualization to **action** from the dashboard, without welding the insight and action planes together.
 
 ## Resolved
+- [x] Does the plugin sign requests, and does it retry? → Yes to both: its own HMAC scheme (optional secret) and a retry queue at 5 min, 15 min, 1 h, 3 h, 6 h, with possible duplicate deliveries ([[Form Submission Contract#How the plugin delivers]]).
+- [x] What does the real payload look like? → Captured and verified, including PHP's empty-array quirk ([[Form Submission Contract#Quirks the real traffic exposed]]).
+- [x] Design the business event table → four stable v0 events, outcome in the data ([[Two Log Streams#The four v0 events]]).
 - [x] Why does the webhook land on Supabase, not Trigger.dev? → [[Webhook Ingress]] (receiver vs processor).
 - [x] How to add a second website without building twice? → [[Source Routing]].
 - [x] First build → [[Form Intake Pipeline]] v0 built ([GTM-Engine #1](https://github.com/galliot-us/GTM-Engine/issues/1)).

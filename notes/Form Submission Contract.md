@@ -1,52 +1,83 @@
 ---
 tags: [gtm-os, build, contract, standard]
-status: seed
+status: growing
 created: 2026-10-19
-updated: 2026-10-19
+updated: 2026-10-21
 aliases: [webhook payload, CloudEvents, Standard Webhooks]
 ---
 
 # Form Submission Contract
 
-Because both ends are ours (the WordPress plugin *and* the receiver), we **design the contract** instead of accepting whatever the form emits.
+Because both ends are ours (the WordPress plugin *and* the receiver), we can shape the contract instead of accepting whatever the form emits. Everything below was **verified against real deliveries** on Oct 19, 2026, plus the plugin's source (`galliot-us/galliot-website`, `docs/forms.md` and `inc/forms.php`).
 
-> [!warning] Not yet verified
-> The payloads below came from another chat and are **illustrative** (`example.com`, a documentation IP range `203.0.113.x`). Before building on them, fire the plugin's **Send test event** at the receiver and capture the real body **and headers**.
+> [!info] Verified, not illustrative
+> The first version of this note used a payload described in another chat. A real **Send test webhook** delivery and a real contact submission from galliot.us have since been captured. The shape was close, but the real traffic exposed quirks (see [[#Quirks the real traffic exposed]]).
 
-## Payload (v0, as described)
+## What really arrives
+
+**A test event** (the plugin's **Send test webhook** button), body exactly as received:
 ```json
 {
-  "event_id": "uuid",
-  "form": "contact | subscribe | test",
-  "submitted_at": "ISO-8601",
+  "event_id": "7c0e7006-…",
+  "form": "test",
+  "submitted_at": "2026-10-19T20:16:17+00:00",
   "site": "https://galliot.us/",
-  "fields": { "name": "…", "email": "…", "message": "…" },
-  "context": {
-    "ip": "…", "ip_hash": "…", "country": "US",
-    "user_agent": "…", "browser": "…", "os": "…", "device": "desktop",
-    "automated_user_agent": false, "accept_language": "…", "language": "…", "timezone": "…",
-    "page_url": "…", "page_title": "…", "referrer": "…", "utm": { "utm_source": "…" },
-    "seconds_on_form": 18.4, "captcha": "passed",
-    "email_domain": "…", "email_free_provider": false, "email_disposable": false, "email_domain_has_mx": true,
-    "message_length": 51, "message_link_count": 0, "message_non_latin_percent": 0
-  }
+  "fields": { "message": "Test event from Settings > Galliot Forms" },
+  "context": { "page_url": "https://galliot.us/wp-admin/options-general.php?page=galliot-forms", "ip_hash": "test" }
 }
 ```
-Subscribe form: `"fields": { "email": "…" }`. Test event: `form: "test"`, minimal context.
+
+**A contact submission** has the same envelope with `form: "contact"`, `fields` = `name`, `email`, `message`, and a full `context` (the plugin's own list, with the spam signals): `ip`, `ip_hash`, `country`, `user_agent`, `browser`, `os`, `device`, `automated_user_agent`, `accept_language`, `language`, `timezone`, `page_url`, `page_title`, `referrer`, `utm`, `seconds_on_form`, `captcha`, `email_domain`, `email_free_provider`, `email_disposable`, `email_domain_has_mx`, `message_length`, `message_link_count`, `message_non_latin_percent`. A subscribe form sends only `fields.email` and no `message_*` values.
+
+**Headers** that matter: `Content-Type: application/json`, `User-Agent: GalliotForms/1.0`, and `X-Galliot-Timestamp` (unix seconds). When a signing secret is configured it also sends `X-Galliot-Signature`.
+
+## How the plugin delivers
+```
+visitor → browser script → POST /wp-json/galliot/v1/form
+   → honeypot, minimum time (1.5 s), rate limit (5 per 10 min per IP), validation, reCAPTCHA
+   → signed JSON POST to the webhook
+        success: done
+        failure: queued, retried at 5 min, 15 min, 1 h, 3 h, 6 h
+        still failing: one fallback email, then the item is dropped
+```
+- WordPress **stores no entries**. The only copy is a queue item while a delivery is failing. The receiver's database is the record.
+- **No webhook configured** → the plugin emails the fallback address instead. Setting a webhook URL therefore *replaces* email delivery; this matters when switching on production.
+- A retry after a timeout can deliver the **same `event_id` twice**, so the receiver must deduplicate ([[Webhook Ingress]]).
+
+## Plugin signing: it exists, and it's its own scheme
+> [!warning] Correction
+> The earlier assumption "requests are unsigned" was wrong. The plugin can sign. The **signing secret is optional**: with no secret set, the signature header is simply absent.
+
+- **Header:** `X-Galliot-Signature: sha256=<hex>`.
+- **What is signed:** HMAC-SHA256 of `"<timestamp>.<raw body>"` with the shared secret, where the timestamp is the `X-Galliot-Timestamp` value.
+- **Verification** means recomputing that HMAC over the *raw* body (before any JSON parsing) and rejecting timestamps older than about five minutes (replay protection).
+- This is **not Standard Webhooks** (different header names, no `webhook-id`). It's close in spirit: a timestamp in the signed content plus an HMAC.
+- **Observed so far:** only unsigned deliveries (no secret was set). The signed form comes from the plugin source and has not been seen live.
+- **v0 state:** the receiver checks a secret **URL token** and does *not* verify the signature. A URL token is weaker: it can leak into server logs, and it gives no replay protection.
+
+## Quirks the real traffic exposed
+> [!warning] Be a tolerant reader
+> The first real submission **failed validation** and only the stored raw row and the failure path saved it. The contract must accept what the sender really produces.
+
+- **PHP encodes an empty array as `[]`, not `{}`.** An empty `utm` arrived as `[]`; a filled one is an object. A schema that says "object" rejects every submission without campaign tags.
+- **Any `context` value can be `null`.** The plugin documents that `country` is `null` off Cloudflare and `email_domain_has_mx` is `null` when DNS can't be checked.
+- **Test events have a minimal context** (`page_url`, `ip_hash: "test"`): no IP, no user agent.
+- **Lesson (the robustness principle):** be strict about what you *send* and tolerant about what you *accept*; treat every `context` field as optional and nullable, because a missing signal must never reject a submission. The raw copy is stored **before** parsing for exactly this reason ([[Form Intake Pipeline]]).
 
 ## What's right
 - **Envelope pattern**: metadata wraps the payload (`fields`) and its `context`.
 - **`form` as a discriminator**: tells the receiver how to read `fields`.
 - **`event_id`** = the **idempotency key**, stored as the **external ID** (the core still mints its own [[Correlation ID]]).
 - **Spam signals at the source**: good **feature extraction**. The decision stays in the core.
+- **Test events never become business events**: stored and classified as a smoke test, no event written ([[Two Log Streams]]).
 
-## What to fix for v1
-- [ ] **Add a schema version** (`specversion` / `version`). Without it, the first field rename breaks old events.
-- [ ] **Drop raw `ip`; keep `ip_hash`** unless there's a concrete need. That's **data minimisation**.
-- [ ] *(Nice to have)* split `context` (facts about the visitor) from `signals` (derived spam features).
-- [ ] **Test events never become business events**: log as a technical check, then drop.
+## Design points for v1
+- **Add a schema version** (`specversion` / `version`). Without it, the first field rename breaks old events.
+- **Drop raw `ip`; keep `ip_hash`** unless there's a concrete need. That's **data minimisation**; the plugin docs already flag the raw IP as personal data.
+- *(Nice to have)* split `context` (facts about the visitor) from `signals` (derived spam features).
+- **Which signing scheme to standardise on** is an open design question: see below.
 
-## Standards to adopt
+## Standards
 ### Envelope: CloudEvents
 **CloudEvents** (CNCF, the same foundation as [[OpenTelemetry]]) standardises event metadata. Mapping:
 
@@ -59,13 +90,13 @@ Subscribe form: `"fields": { "email": "…" }`. Test event: `form: "test"`, mini
 | `fields` + `context` | `data` |
 | *(new)* | `specversion: "1.0"`, `datacontenttype: "application/json"` |
 
-### Delivery
-**Standard Webhooks** standardises how webhooks are sent and verified: headers `webhook-id`, `webhook-timestamp` and `webhook-signature` (**HMAC** with a shared secret), with official verification libraries. The timestamp blocks **replay attacks** (an old signed request re-sent).
+### Delivery: Standard Webhooks vs the plugin's own scheme
+**Standard Webhooks** standardises how webhooks are sent and verified: headers `webhook-id`, `webhook-timestamp` and `webhook-signature` (**HMAC** with a shared secret), with official verification libraries. The timestamp blocks **replay attacks**.
 
-**Recommendation:** v1 = this payload in a CloudEvents envelope, delivered with Standard Webhooks headers. Small plugin change; no home-made format.
+The trade-off, now that we know the plugin already signs:
+- **Verify the existing scheme:** no plugin change; a few lines of HMAC in the receiver. Fine for one site.
+- **Move to Standard Webhooks:** needs a plugin change, but it buys library support and a *shared* delivery convention for every future source ([[Source Routing]]).
 
-## Questions for the plugin code
-- ~~Does it sign requests today?~~ **Yes**: `X-Galliot-Signature`. Not yet verified by the receiver.
-- Does it retry on failure? How often, and does it reuse the same `event_id`?
+No decision yet; the question is tracked in [[Open Threads]].
 
 Used by [[Form Intake Pipeline]].
