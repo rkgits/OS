@@ -51,6 +51,9 @@ Verified (Oct 2026): **no official subscriber API**. The only programmatic route
 ## Work
 - [GTM-Engine #2](https://github.com/galliot-us/GTM-Engine/issues/2): per-source credentials, source attribution, public endpoint
 - [LSTC #1](https://github.com/galliot-us/LSTC/issues/1): send signups in the shared v1 contract
-- [GTM-Engine #3](https://github.com/galliot-us/GTM-Engine/issues/3): dispatcher + LSTC onboarding workflow
+- [GTM-Engine #3](https://github.com/galliot-us/GTM-Engine/issues/3): dispatcher + LSTC signup workflow
+
+> [!info] Decision (Oct 21): LSTC v1 scope is store + notify only
+> Store each signup's email and email a notification to `reza+lstc@galliot.us`. Welcome email, double opt-in and Substack are **deferred**. Side effect worth noticing: with nothing emailed to the subscriber, the subscription-bombing risk disappears until a welcome email is added.
 
 Related: [[Worker Coordination]], [[Engine vs Core]], [[Two Log Streams]].
