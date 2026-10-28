@@ -2,6 +2,8 @@
 
 This repo is Reza's research vault for designing a company "OS" (GTM data integration, ingestion, identity resolution, workers/agents, and eventually actions from a dashboard). It is meant to be opened as an **Obsidian vault**.
 
+**Purpose:** a learning record. Reza is a GTM engineer, not a trained software engineer, building GTM systems with AI coding tools; these notes capture the software-architecture reasoning behind the decisions (concepts, corrections, examples), so he can refer back and extend them. Build tickets are a side job and live elsewhere (below). The big picture is `notes/System Map.md`.
+
 ## Note format (required for every document in this repo)
 
 - **Small notes, one concept each**, in `notes/`. File name = note title (spaces allowed, e.g. `Identity Resolution.md`).

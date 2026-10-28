@@ -2,7 +2,7 @@
 tags: [gtm-os, todo]
 status: growing
 created: 2026-10-15
-updated: 2026-10-21
+updated: 2026-10-28
 ---
 
 # Open Threads
@@ -21,9 +21,18 @@ Learning and design questions only. Build work lives as issues in [GTM-Engine](h
 - [ ] How the match score is built ([[Identity Resolution]]).
 - [ ] Real-time vs good-enough tradeoffs, source by source.
 - [ ] Newsletter platform: stay on Substack (manual/CSV) or move to one with an API? ([[Source Routing#Substack]])
+- [ ] **Answer the cursor exercise** in [[Pull-Based Sync#Exercise (unanswered)]] before opening the answer.
+- [ ] How accounts roll up: parent companies and subsidiaries ([[Core Data Model]]).
+- [ ] Pick one of the [[Data Model Management]] practices to go deeper on.
+- [ ] Layers 4 and 5 of the [[System Map]]: actions, and the interface.
 - [ ] Moving from visualization to **action** from the dashboard, without welding the insight and action planes together.
 
 ## Resolved
+- [x] Where do I start, and what's the big picture? → [[System Map]]; start at layer 2, the [[Core Data Model]].
+- [x] A person changes company: update or keep history? → keep it; employment records with dates ([[Temporal Modelling]]).
+- [x] Is a stage change an event, or a separate history table? → an event; plus a state table as a shortcut ([[Events vs State]]).
+- [x] Store a tool's record as is, or translate it? → both: raw first, then translate ([[Raw to Core Layers]]).
+- [x] Two sources disagree: which wins? → designed per-field rules ([[Survivorship]]).
 - [x] Does the plugin sign requests, and does it retry? → Yes to both: its own HMAC scheme (optional secret) and a retry queue at 5 min, 15 min, 1 h, 3 h, 6 h, with possible duplicate deliveries ([[Form Submission Contract#How the plugin delivers]]).
 - [x] What does the real payload look like? → Captured and verified, including PHP's empty-array quirk ([[Form Submission Contract#Quirks the real traffic exposed]]).
 - [x] Design the business event table → four stable v0 events, outcome in the data ([[Two Log Streams#The four v0 events]]).

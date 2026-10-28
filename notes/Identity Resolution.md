@@ -2,7 +2,7 @@
 tags: [gtm-os, identity, concept]
 status: growing
 created: 2026-10-15
-updated: 2026-10-18
+updated: 2026-10-28
 aliases: [entity resolution, deduplication, identity graph]
 ---
 
@@ -28,5 +28,7 @@ Those human decisions become labelled data that improves the rules over time.
 - AI can write the code easily, and open-source libraries exist: **Splink**, **dedupe**.
 - The hard part is **judgment**: which signals count, where thresholds sit, what "same person" means. An AI assistant will happily produce confident logic that quietly fuses two different people.
 - **LLM as reviewer**: let a model judge the grey-zone pairs and explain its verdict. Run it *only* on uncertain pairs, because running it on everything is slow and expensive.
+
+Once matched, which source's values win: [[Survivorship]]. Where the IDs live: [[Core Data Model#Identifiers]].
 
 Next level up: [[Person vs Account]].
