@@ -21,13 +21,17 @@ Learning and design questions only. Build work lives as issues in [GTM-Engine](h
 - [ ] How the match score is built ([[Identity Resolution]]).
 - [ ] Real-time vs good-enough tradeoffs, source by source.
 - [ ] Newsletter platform: stay on Substack (manual/CSV) or move to one with an API? ([[Source Routing#Substack]])
-- [ ] **Answer the cursor exercise** in [[Pull-Based Sync#Exercise (unanswered)]] before opening the answer.
-- [ ] How accounts roll up: parent companies and subsidiaries ([[Core Data Model]]).
+- [ ] **First exam round** on the data model ([[Self-Exam]]).
+- [ ] Layer 1 of the [[System Map]]: connectors.
 - [ ] Pick one of the [[Data Model Management]] practices to go deeper on.
 - [ ] Layers 4 and 5 of the [[System Map]]: actions, and the interface.
 - [ ] Moving from visualization to **action** from the dashboard, without welding the insight and action planes together.
 
 ## Resolved
+- [x] The cursor exercise → missed, because the record is stamped before the cursor; fixes: cursor from the data, lookback window, upserts, advance only after saving ([[Pull-Based Sync#Rules for a safe cursor]]).
+- [x] What is idempotency, and are dashboard actions naturally idempotent? → No, it's designed in ([[Idempotency]]).
+- [x] How accounts roll up → [[Account Hierarchy]].
+- [x] Where does a plugin store its own data? → an extension table ([[Core Plus Extensions]]).
 - [x] Where do I start, and what's the big picture? → [[System Map]]; start at layer 2, the [[Core Data Model]].
 - [x] A person changes company: update or keep history? → keep it; employment records with dates ([[Temporal Modelling]]).
 - [x] Is a stage change an event, or a separate history table? → an event; plus a state table as a shortcut ([[Events vs State]]).

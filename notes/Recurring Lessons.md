@@ -28,9 +28,9 @@ aliases: [learning summary, brief, what I've learned]
 | Postponing | Deferring vs skipping | [[Engineering Basics]] |
 
 ## Habits
-- **Don't overwrite; record the change** ([[Temporal Modelling]], [[Events vs State]]).
+- **Don't overwrite; record the change.** Relationships that change over time get dates: employer, deal stage, parent company ([[Temporal Modelling]], [[Events vs State]], [[Account Hierarchy]]).
 - **Store raw first, process later** ([[Webhook Ingress]], [[Raw to Core Layers]]).
-- **Idempotency:** the same input twice has the effect of once. **Side effects** get a check before acting.
+- **Idempotency:** the same input twice has the effect of once. **Assume every action runs twice**; it's designed in, not a natural property ([[Idempotency]]). **Side effects** get a check before acting.
 - **Fail loudly.** **Defence in depth** ([[Bot Protection]]).
 - **Conflicts are resolved by designed rules, not opinions** ([[Survivorship]]).
 - **Limit work in progress** ([[Engineering Basics]]).

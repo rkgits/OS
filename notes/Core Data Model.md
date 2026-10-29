@@ -38,5 +38,5 @@ Clay, HubSpot and Smart Lead each have **their own version of a person**. Your m
 - Keeping the model healthy over years: [[Data Model Management]]
 - Matching records to the same person: [[Identity Resolution]]
 
-> [!todo] Not covered yet
-> How accounts roll up (parent company, subsidiaries). See [[Open Threads]].
+- Parent companies and subsidiaries: [[Account Hierarchy]]
+- Where plugins put their own data: [[Core Plus Extensions]]

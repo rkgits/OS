@@ -24,6 +24,8 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 - [[Events vs State]]: the event log is the truth, state tables are shortcuts; reconciliation
 - [[Raw to Core Layers]]: raw → cleaned → core (medallion); keep the original
 - [[Survivorship]]: designed rules for conflicting sources; the golden record
+- [[Account Hierarchy]]: parents and subsidiaries; rollups; dated parent links
+- [[Core Plus Extensions]]: plugins get their own tables, never columns on the core
 - [[Data Model Management]]: eight practices for keeping the model healthy
 
 ## Getting data in
@@ -35,6 +37,7 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 - [[Source Routing]]: many sources, one front door; per-source config; server vs public sources
 - [[Pull-Based Sync]]: cursors, pagination, rate limits, invisible deletes
 - [[Bot Protection]]: honeypots and defence in depth
+- [[Idempotency]]: twice equals once; upserts, idempotency keys, check-before-act
 
 ## Making sense of it
 - [[Identity Resolution]]: one canonical ID per human; matching, thresholds, review queues
@@ -61,13 +64,14 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 
 ## Open
 - [[Open Threads]]
+- [[Self-Exam]]: how understanding gets tested, in your own words
 
 ## Current position (Oct 28, 2026)
 - Central store: **Supabase (Postgres)**.
 - Architecture decided: shared data model, event log, explicit worker contracts, logic in owned code ([[Engine vs Core]]).
 - Ingestion engine: **Trigger.dev runs the first production worker**, kept replaceable by [[Engine vs Core]]. The fair comparison with Inngest, Temporal, self-hosted n8n and fully custom is still open.
 - The dashboard reads only from Supabase, never from vendor APIs.
-- **Learning focus:** this thread is for architecture; build tickets are a side job. Working through the [[System Map]] from layer 2: [[Core Data Model]].
+- **Learning focus:** this thread is for architecture; build tickets are a side job. Working through the [[System Map]]: layer 2 ([[Core Data Model]]) is **done**, including [[Account Hierarchy]] and [[Core Plus Extensions]]; **next is layer 1, connectors**.
 - Observability: two streams (technical logs, business events), one core-minted correlation ID, a shared telemetry module, and a Supabase event table with four stable v0 events ([[Two Log Streams#The four v0 events]]). Failures email an alert. Gaps: the receiver's logging, and an alert channel independent of the mail path.
 - First build: [[Form Intake Pipeline]], **built (v0)** in `galliot-us/GTM-Engine` ([issue #1](https://github.com/galliot-us/GTM-Engine/issues/1)). The plugin **already signs** requests with its own HMAC scheme; the receiver doesn't verify it yet, and which scheme to standardise on is open ([[Form Submission Contract]]).
 - Next: a second source, Life Science Tech Collective, through the same front door; v1 scope is **store + notify** only ([[Source Routing]], [GTM-Engine #3](https://github.com/galliot-us/GTM-Engine/issues/3)).

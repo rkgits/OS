@@ -38,4 +38,6 @@ Nothing is overwritten. Every email and meeting stays tied to the **person**, an
 - Each deal moves through its own stages, and you keep **every stage change with a timestamp**, not just the current stage. That stage history answers "how long do deals sit in negotiation?" and "where do we lose them?"
 - Same principle: **don't overwrite, record the change.** How that's stored: [[Events vs State]].
 
+The same rule applies a third time to an account's **parent company**: [[Account Hierarchy#When the parent changes (acquisitions, divestments)]].
+
 Related: [[Person vs Account]], [[Core Data Model]].
