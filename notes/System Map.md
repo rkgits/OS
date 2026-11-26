@@ -2,7 +2,7 @@
 tags: [gtm-os, architecture, moc]
 status: growing
 created: 2026-10-28
-updated: 2026-10-28
+updated: 2026-11-25
 aliases: [six layers, the big picture, where to start]
 ---
 
@@ -21,8 +21,8 @@ The pain point, in Reza's words: building GTM systems by **vibe coding** without
 | 2 | **Core data** | The central store, the shared model of people and accounts, the event log | [[Core Data Model]], [[Choosing the Store]] |
 | 3 | **Workers** | Jobs and AI agents that enrich, score and decide | [[Worker Coordination]], [[Form Intake Pipeline]] |
 | 4 | **Actions** | Sending emails, updating the CRM, triggering campaigns | *(not covered yet)* |
-| 5 | **Interface** | The dashboard and controls | *(not covered yet)* |
-| 6 | **Running it** | Observability, security, deploys, cost | [[Observability]], [[Engineering Basics]] |
+| 5 | **Interface** | The dashboard and controls | [[Dashboard Architecture]] |
+| 6 | **Running it** | Observability, security, deploys, cost | [[Observability]], [[Engineering Basics]], [[Personal Data and Retention]] |
 
 **Extensibility is not a seventh layer.** Plugins and add-ons come from **clean contracts between the layers**: a new tool is a new connector mapping into the same core model, and a new feature is a new worker reading the same events ([[Engine vs Core]], [[Worker Coordination]]).
 

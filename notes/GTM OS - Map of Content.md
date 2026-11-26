@@ -2,7 +2,7 @@
 tags: [moc, gtm-os]
 status: growing
 created: 2026-10-15
-updated: 2026-10-28
+updated: 2026-11-25
 aliases: [GTM OS MOC, Home]
 ---
 
@@ -59,18 +59,22 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 - [[Form Intake Pipeline]]: first real build, **live (v0)**: website form → receiver → spam decision → email + business events; lessons from the first real submission
 - [[Form Submission Contract]]: the **verified** webhook payload, the plugin's own signing and retries, PHP quirks, plus the CloudEvents and Standard Webhooks standards
 
+## Interface (layer 5)
+- [[Dashboard Architecture]]: the password-protected inbox; authentication vs authorisation, the public key that isn't a secret, the definer view plus allowlist, why removing access is immediate, proving a safeguard by breaking it
+
 ## Running it (layer 6)
 - [[Engineering Basics]]: finish what you shipped, CI/CD, environments, secrets, limiting work in progress
+- [[Personal Data and Retention]]: what counts as personal data, where the copies live, minimisation, retention and erasure (decision pending)
 
 ## Open
 - [[Open Threads]]
 - [[Self-Exam]]: how understanding gets tested, in your own words
 
-## Current position (Oct 28, 2026)
+## Current position (Nov 25, 2026)
 - Central store: **Supabase (Postgres)**.
 - Architecture decided: shared data model, event log, explicit worker contracts, logic in owned code ([[Engine vs Core]]).
 - Ingestion engine: **Trigger.dev runs the first production worker**, kept replaceable by [[Engine vs Core]]. The fair comparison with Inngest, Temporal, self-hosted n8n and fully custom is still open.
-- The dashboard reads only from Supabase, never from vendor APIs.
+- The dashboard reads only from Supabase, never from vendor APIs, and never from the real tables: **it is live** (password-protected inbox on AWS Amplify, filter by source) behind one allowlisted view ([[Dashboard Architecture]]). Open: mandatory two-step verification, and how long personal data is kept ([[Personal Data and Retention]]).
 - **Learning focus:** this thread is for architecture; build tickets are a side job. Working through the [[System Map]]: layer 2 ([[Core Data Model]]) is **done**, including [[Account Hierarchy]] and [[Core Plus Extensions]]; **next is layer 1, connectors**.
 - Observability: two streams (technical logs, business events), one core-minted correlation ID, a shared telemetry module, and a Supabase event table with four stable v0 events ([[Two Log Streams#The four v0 events]]). Failures email an alert. Gaps: the receiver's logging, and an alert channel independent of the mail path.
 - First build: [[Form Intake Pipeline]], **built (v0)** in `galliot-us/GTM-Engine` ([issue #1](https://github.com/galliot-us/GTM-Engine/issues/1)). The plugin **already signs** requests with its own HMAC scheme; the receiver doesn't verify it yet, and which scheme to standardise on is open ([[Form Submission Contract]]).

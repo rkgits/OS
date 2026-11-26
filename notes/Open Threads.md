@@ -2,7 +2,7 @@
 tags: [gtm-os, todo]
 status: growing
 created: 2026-10-15
-updated: 2026-10-28
+updated: 2026-11-25
 ---
 
 # Open Threads
@@ -25,9 +25,14 @@ Learning and design questions only. Build work lives as issues in [GTM-Engine](h
 - [ ] Layer 1 of the [[System Map]]: connectors.
 - [ ] Pick one of the [[Data Model Management]] practices to go deeper on.
 - [ ] Layers 4 and 5 of the [[System Map]]: actions, and the interface.
+- [ ] **Mandatory two-step verification for the dashboard?** It would need an extra check inside the view and locks a person out until they enrol; the access tests would need to simulate a second factor ([[Dashboard Architecture#Choices]], [GTM-Engine #12](https://github.com/galliot-us/GTM-Engine/issues/12)).
+- [ ] **How long do we keep personal data, field by field,** and how does erasure reach the copies (table, emails, backups)? ([[Personal Data and Retention]], [GTM-Engine #40](https://github.com/galliot-us/GTM-Engine/issues/40))
 - [ ] Moving from visualization to **action** from the dashboard, without welding the insight and action planes together.
 
 ## Resolved
+- [x] Which login system for the dashboard, and why not Cognito? → Supabase Auth, because Postgres can check the login directly ([[Dashboard Architecture#Choices]]).
+- [x] How can a browser read some data without being able to read the table? → one definer view with an allowlist guard, a security barrier and tight grants ([[Dashboard Architecture#Pattern: a definer view plus an allowlist]]).
+- [x] Is logging in enough to see the data? → No: authentication and authorisation are separate locks ([[Dashboard Architecture#Correction: logging in is not permission to read]]).
 - [x] The cursor exercise → missed, because the record is stamped before the cursor; fixes: cursor from the data, lookback window, upserts, advance only after saving ([[Pull-Based Sync#Rules for a safe cursor]]).
 - [x] What is idempotency, and are dashboard actions naturally idempotent? → No, it's designed in ([[Idempotency]]).
 - [x] How accounts roll up → [[Account Hierarchy]].
