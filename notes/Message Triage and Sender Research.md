@@ -31,12 +31,22 @@ The services don't live inside the worker. **We hand a service a job and get an 
 
 ## Decisions, with the reasons
 > [!info] Fail open
-> **A missed inquiry costs far more than a shown promotion.** When the costs of two mistakes are unequal, you design so the *cheap* mistake is the one that happens. So anything unusual (a model error, a weak answer, a missing key) ends with the owner seeing the message. An *unsure* promotion is treated as an inquiry. This is why promotions are the only thing ever withheld, and only when the model is confident. The confidence threshold (0.8) is a **guess until measured**; the evaluation script exists to replace the guess with evidence.
+> **A missed inquiry costs far more than a shown promotion.** When the costs of two mistakes are unequal, you design so the *cheap* mistake is the one that happens. So anything unusual (a model error, a weak answer, a missing key) ends with the owner seeing the message. An *unsure* promotion is treated as an inquiry. This is why promotions are the only thing ever withheld, and only when the model is confident. The confidence threshold started as a guess (0.8) and was raised to **0.85** after real mail showed several borderline cases sitting exactly on it ([[#What real mail taught us]]).
 
 - **The answer is forced into a fixed list of labels** (a schema), not free text. Combined with fencing the message as *untrusted data*, this limits what a malicious email can do to "mislabel one message". It can't make the system do anything, because the model is given no tools and its answer can only be one of four words. **You limit the damage of an attack by limiting what the thing it fools is able to do.** The same idea sits behind [[Bot Protection]].
 - **The model sees only the message and the sender's email domain.** The name and full address stay home. Data you never send can't leak.
 - **The label is saved as columns on the submission, and also recorded as an event** ([[Events vs State]]): the columns are the *present* (what is it now), the event is the *history* (it was labelled at this time by this model). The event holds no personal data.
 - **Model choice (Haiku) is a bet, not a fact.** It's cheap and fast; whether it's good enough on subtle cases is **measured on a set of realistic messages** (including a disguised pitch, a prompt-injection attempt, and an inquiry that mentions "SEO" as the *project*) before it is trusted.
+
+## What real mail taught us
+> [!tip] Test on the real thing as early as you can
+> A 26-message test I wrote myself passed almost perfectly. **Running the same classifier, read-only, over the 39 real stored messages found a mistake the test had not**: an investment bank offering to help the company *sell* was labelled "acquisition", because my definition said "an adviser acting for a buyer" and didn't say what *isn't* one. A **boundary between two categories needs an explicit "this is NOT that" line**, not just a definition of each side.
+
+- **Real mail is mostly promotions** (82% here), so the design pays off.
+- **Nothing real was hidden**, which is the property that matters. Checking it meant *reading the withheld messages*, not trusting a number.
+- **Grey areas are decisions, not model errors.** "Someone offers money for our data" fits neither word well; the owner chose "promotion".
+- **The model's confidence wobbles between runs** (0.85 one run, 0.80 the next), so a hard threshold can't sit on a number the model repeats exactly. Save the label once and reuse it, and put the floor where borderline cases fall on the safe side.
+- **Each failure becomes a permanent test case**, so the same mistake can't return unnoticed.
 
 ## One task or several? A rule of thumb
 > [!warning] A retry re-runs the whole task

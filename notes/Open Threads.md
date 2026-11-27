@@ -27,7 +27,7 @@ Learning and design questions only. Build work lives as issues in [GTM-Engine](h
 - [ ] Layers 4 and 5 of the [[System Map]]: actions, and the interface.
 - [ ] **Mandatory two-step verification for the dashboard?** It would need an extra check inside the view and locks a person out until they enrol; the access tests would need to simulate a second factor ([[Dashboard Architecture#Choices]], [GTM-Engine #12](https://github.com/galliot-us/GTM-Engine/issues/12)).
 - [ ] **How long do we keep personal data, field by field,** and how does erasure reach the copies (table, emails, backups)? ([[Personal Data and Retention]], [GTM-Engine #40](https://github.com/galliot-us/GTM-Engine/issues/40))
-- [ ] **Is Haiku good enough, and is 0.8 the right confidence threshold** for trusting a "promotion" label? Settle it with the evaluation on realistic messages, not opinion ([[Message Triage and Sender Research#Decisions, with the reasons]]).
+- [x] **Is Haiku good enough, and where should the promotion confidence floor sit?** → Haiku passed 27 of 28 and found no real inquiry hidden among 39 real messages; the floor is 0.85 ([[Message Triage and Sender Research#What real mail taught us]]).
 - [ ] **Should the email wait for research** (one email, but a failure mode), or go at once with research shown later? ([[Message Triage and Sender Research#Open]])
 - [ ] Moving from visualization to **action** from the dashboard, without welding the insight and action planes together.
 
