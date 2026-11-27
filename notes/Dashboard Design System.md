@@ -70,8 +70,35 @@ The pattern behind it: **every hue gets a *fill* step and a *text* step.** A bra
 
 **Decision (Nov 26): Lucide.** It ships with shadcn/ui, so every component we add already uses it; any other set would mean swapping icons inside each component. Its 2px rounded line matches Inter's weight at 16–20px, and at about 2,100 icons it covers a dense dashboard.
 
+### Density, corners and shadows
+**Decision (Nov 26): Compact · Medium · Subtle**, chosen on a live test screen that re-cut one realistic dashboard (navigation, KPI cards, inbox table, edit panel) for each option.
+
+| Token | Value | Notes |
+| --- | --- | --- |
+| Base unit | 4px | every spacing value is a multiple of it |
+| Table row | 36px | compact: more rows per screen for a tool used all day |
+| Card padding / gap | 12px / 12px | |
+| Button and input height | 32px | |
+| Table text | 13px | the floor; nothing interface-wide goes smaller |
+| Radius sm / md / lg | 4 / 8 / 12px | tags / buttons and inputs / cards and panels |
+| Card shadow | `0 1px 2px rgb(0 0 0/.06), 0 1px 3px rgb(0 0 0/.06)` | barely there: borders do the separating |
+| Popover shadow | `0 8px 24px rgb(0 0 0/.12)` | strong depth only for things that float: menus, tooltips, dialogs |
+
+**Why one decision, not three:** spacing, corners and shadows together set how full or airy every screen feels, so they were judged together on one screen rather than as separate swatches.
+
+> [!warning] Compact has a cost to watch
+> 36px rows and 13px text fit more on screen but tire the eye over a long day, and 32px controls sit below the 44px comfortable touch target. Fine for a desktop tool; if the team starts using it on phones or tablets, the touch targets are the first thing to revisit.
+
+### Light only
+**Decision (Nov 26): the dashboard is light-only for now; no dark mode.**
+
+> [!warning] Correction: the test pages weren't "black by design"
+> They followed the viewer's **device appearance setting** (macOS/browser dark mode) and switched to their dark palette automatically. A page that supports both themes picks one from the device, not from the designer. Since the dashboard should be white, the test pages and the dashboard are now fixed to light.
+
+Supporting dark mode later means every token gets a second value (the night version of each colour) and every screen is checked twice. Defer it until someone asks; don't half-support it.
+
 > [!todo] Not decided yet
-> Spacing scale and corner radius; shadows; dark mode or not; and **where the design system lives** (its own repo, or a folder in the dashboard's repo). See [[Open Threads]].
+> **Where the design system lives** (its own repo, or a folder in the dashboard's repo). See [[Open Threads]].
 
 ## Where we are
-Principles, the approach, the font, the colours and the icon set are set; density (spacing, corners, shadows) is next. The order from here: finish tokens (exact colours, then spacing and radius), then the core components (tag, tooltip, table, card, button, and the apply-state pattern), then page patterns.
+Principles, the approach, the font, colours, icon set, density and theme are set. **Tokens are done; components are next.** The order from here: the core components (tag, tooltip, table, card, button, and the apply-state pattern), then page patterns.
