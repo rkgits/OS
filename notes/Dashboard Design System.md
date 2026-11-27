@@ -133,10 +133,21 @@ Supporting dark mode later means every token gets a second value (the night vers
 | Ease-in | `cubic-bezier(.4,0,1,1)` | things leaving |
 | Ease-in-out | `cubic-bezier(.4,0,.2,1)` | things moving from A to B |
 
-Rules: nothing over 300ms; no bounce or spring; only loading indicators move on their own; respect the device's "reduce motion" setting. **Approved patterns:** tooltip (fast, 4px rise), dropdown (fast, small scale from its corner), **save then toast** (spinner on the button while saving, a toast with Undo on success). **Rejected:** the slide-in side panel (see open question below).
+Rules: nothing over 300ms; no bounce or spring; only loading indicators move on their own; respect the device's "reduce motion" setting. **Approved patterns:** tooltip (fast, 4px rise), dropdown (fast, small scale from its corner), **save then toast** (spinner on the button while saving, a toast with Undo on success). **Rejected:** the slide-in side panel ([[#Where details open]]).
+
+### Where details open
+**Decision (Nov 26): no side panels.** Not just the slide-in motion: the pattern of opening a record's details in a panel beside the list is out.
+
+Details open in one of two places instead:
+1. **Expand the row in place** for quick looks and quick edits while triaging: the row grows to show the key details and inline fields, edits go through **save then toast** with Undo, and you never lose your place in the list.
+2. **A full page per record** (person, company, deal) for everything else: room for history and related records, and a **link you can share** with a colleague, which a panel can't give you.
+
+The expanded row carries an **Open** link to the full page, so the two work together: triage in the list, deep work on the page.
+
+**Dialogs** are kept for one job only: confirming something you can't take back ("Delete this rule?"). Never for browsing or editing.
 
 > [!todo] Not decided yet
-> **Side panel or not:** the slide-in side panel was rejected; is that the motion, or the pattern of opening details in a panel at all? If the pattern, details open in place (expanding row) or on their own page. And **where the design system lives** (its own repo, or a folder in the dashboard's repo). See [[Open Threads]].
+> **Where the design system lives** (its own repo, or a folder in the dashboard's repo). See [[Open Threads]].
 
 ## Where we are
 Principles, the approach, the font, colours, icon set, density and theme are set. **Tokens are done; components are next.** The order from here: the core components (tag, tooltip, table, card, button, and the apply-state pattern), then page patterns.
