@@ -152,7 +152,12 @@ The expanded row carries an **Open** link to the full page, so the two work toge
 > [!warning] Correction: the dashboard isn't built on shadcn/ui or Tailwind
 > The early recommendation ("build on shadcn/ui with Tailwind") was made **without reading the code**. The real dashboard is **React + Vite with one hand-written stylesheet** and its own small set of CSS variables (a different blue, 10px radius, the system font, and dark mode via the OS setting). Adding Tailwind and shadcn/ui now would be a migration of the whole dashboard, not a starting point. The lesson: **check what exists before recommending how to build on it.**
 
-The cheaper path that keeps every decision above: the v1 tokens become **CSS variables** in the existing stylesheet, Inter and Lucide (`lucide-react`) are added as dependencies, and components are small React files in a `design` folder. A library for the hard accessible parts (tooltip, dropdown, dialog focus) can come later, only where it earns its place. *(Pending Reza's confirmation.)*
+The cheaper path that keeps every decision above: the v1 tokens become **CSS variables** in the existing stylesheet, Inter and Lucide (`lucide-react`) are added as dependencies, and components are small React files in a `design` folder. A library for the hard accessible parts (tooltip, dropdown, dialog focus) can come later, only where it earns its place. **Confirmed Nov 26.**
+
+> [!info] Fonts must be self-hosted
+> The dashboard's security policy only allows fonts and styles from its own origin, so Inter can't load from Google Fonts there. The fonts are bundled from npm; the policy stays as strict as it is.
+
+**Work:** [GTM-Engine #59](https://github.com/galliot-us/GTM-Engine/issues/59) puts the v1 tokens into the dashboard; [GTM-Engine #60](https://github.com/galliot-us/GTM-Engine/issues/60) builds the expandable row and removes the side panel.
 
 ### First component: the expandable row
 Prototyped on the real Forms page, with the actions planned in the dashboard-actions epic ([GTM-Engine #56](https://github.com/galliot-us/GTM-Engine/issues/56)): change type, mark spam or not spam, research sender, draft reply (later), plus tracing and **Open full page**.
