@@ -146,8 +146,25 @@ The expanded row carries an **Open** link to the full page, so the two work toge
 
 **Dialogs** are kept for one job only: confirming something you can't take back ("Delete this rule?"). Never for browsing or editing.
 
+### Where it lives
+**Decision (Nov 26): a folder inside the dashboard's code** (`galliot-us/GTM-Engine`, `dashboard/`), not its own repository. There is one consumer today; a separate repo means versioning and publishing a package for nobody else. Move it out the day a second app needs it.
+
+> [!warning] Correction: the dashboard isn't built on shadcn/ui or Tailwind
+> The early recommendation ("build on shadcn/ui with Tailwind") was made **without reading the code**. The real dashboard is **React + Vite with one hand-written stylesheet** and its own small set of CSS variables (a different blue, 10px radius, the system font, and dark mode via the OS setting). Adding Tailwind and shadcn/ui now would be a migration of the whole dashboard, not a starting point. The lesson: **check what exists before recommending how to build on it.**
+
+The cheaper path that keeps every decision above: the v1 tokens become **CSS variables** in the existing stylesheet, Inter and Lucide (`lucide-react`) are added as dependencies, and components are small React files in a `design` folder. A library for the hard accessible parts (tooltip, dropdown, dialog focus) can come later, only where it earns its place. *(Pending Reza's confirmation.)*
+
+### First component: the expandable row
+Prototyped on the real Forms page, with the actions planned in the dashboard-actions epic ([GTM-Engine #56](https://github.com/galliot-us/GTM-Engine/issues/56)): change type, mark spam or not spam, research sender, draft reply (later), plus tracing and **Open full page**.
+- **One row open at a time**, so the list stays scannable.
+- **One-click edits save at once** with a toast and Undo; a failed save shows Retry and puts the value back.
+- **Overrides sit beside the model's answer, never over it** ("Model: inquiry · You: other"), matching how the engine stores them.
+- **Work requests** (research) show their own waiting state in the row, and their button is disabled while one runs, so a double click can't start two ([[Idempotency]]).
+- **Keyboard:** Enter or Space opens, arrow keys move, Escape closes.
+- It **replaces the current side panel** on the Forms page.
+
 > [!todo] Not decided yet
-> **Where the design system lives** (its own repo, or a folder in the dashboard's repo). See [[Open Threads]].
+> Nothing blocking; components continue (its own repo, or a folder in the dashboard's repo). See [[Open Threads]].
 
 ## Where we are
 Principles, the approach, the font, colours, icon set, density and theme are set. **Tokens are done; components are next.** The order from here: the core components (tag, tooltip, table, card, button, and the apply-state pattern), then page patterns.

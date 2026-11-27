@@ -31,9 +31,10 @@ Learning and design questions only. Build work lives as issues in [GTM-Engine](h
 - [ ] **Should the email wait for research** (one email, but a failure mode), or go at once with research shown later? ([[Message Triage and Sender Research#Open]])
 - [ ] Moving from visualization to **action** from the dashboard, without welding the insight and action planes together.
 
-- [ ] **Design system: components next**, and decide where the design system lives (its own repo or a folder in the dashboard repo) ([[Dashboard Design System]]).
+- [ ] **Design system: components next.** Confirm the build path (CSS variables in the existing stylesheet, not a Tailwind and shadcn/ui migration) and approve the expandable row ([[Dashboard Design System#First component: the expandable row]]).
 
 ## Resolved
+- [x] Where does the design system live? → a folder in the dashboard code ([[Dashboard Design System#Where it lives]]).
 - [x] Side panels? → No: details expand in the row, or open on their own page ([[Dashboard Design System#Where details open]]).
 - [x] Chart colours and motion → Tableau 10 reordered (red and green last); three speeds, three curves; tooltip, dropdown and save-then-toast approved ([[Dashboard Design System#Chart colours]]).
 - [x] Density, corners, shadows, theme → Compact · Medium · Subtle, light only ([[Dashboard Design System#Density, corners and shadows]]).
