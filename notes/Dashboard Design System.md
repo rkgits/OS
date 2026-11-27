@@ -100,12 +100,43 @@ Supporting dark mode later means every token gets a second value (the night vers
 ### Versioning
 **Decision (Nov 26): tokens are versioned and can change as we use them.** Ship v1 now, adjust from real use, and release changes as a new version rather than editing values silently. A version number tells every page which set of decisions it was built on, so a change is a deliberate step that can be reviewed and rolled back.
 
-### Still to pick
-- **Chart colours**: a series palette kept separate from status colours, because a green or red line reads as "good" or "bad". Candidates compared on a test page: a custom palette led by the logo blue with no green or red, Tableau 10, Okabe-Ito (colour-blind safe), Observable 10, IBM Carbon.
-- **Motion**: proposed three speeds (150 / 200 / 300ms) and three curves (ease-out for entering, ease-in for leaving, ease-in-out for moving), no bounce, nothing over 300ms, respect "reduce motion".
+### Chart colours
+**Decision (Nov 26): Tableau 10, reordered.** Chosen over a custom palette on a side-by-side test page.
+
+> [!warning] Correction: Tableau's red and green collide with status colours
+> In its standard order the third and fifth series are red `#E15759` and green `#59A14F`. Next to status tags, a red "Email" line reads as "Email is failing". **Fix: keep the palette, move red and green to the end**, so they only appear in charts with nine or ten series, which a dashboard should rarely draw anyway.
+
+| Order | Hex | Name |
+| --- | --- | --- |
+| 1 | `#4E79A7` | blue |
+| 2 | `#F28E2B` | orange |
+| 3 | `#76B7B2` | teal |
+| 4 | `#EDC948` | yellow |
+| 5 | `#B07AA1` | purple |
+| 6 | `#FF9DA7` | pink |
+| 7 | `#9C755F` | brown |
+| 8 | `#BAB0AC` | grey |
+| 9 | `#E15759` | red (last resort) |
+| 10 | `#59A14F` | green (last resort) |
+
+**Rule:** chart colours are for *series* (channel, source, campaign); status colours are for *meaning* (done, waiting, failed). The two sets never swap jobs. More than about six series in one chart is usually a design problem, not a colour problem.
+
+### Motion
+**Decision (Nov 26): three speeds, three curves.**
+
+| Token | Value | Used for |
+| --- | --- | --- |
+| Fast | 150ms | hover, press, tooltip, dropdown |
+| Base | 200ms | toast, expand and collapse |
+| Slow | 300ms | dialog, page-level change |
+| Ease-out | `cubic-bezier(.2,0,0,1)` | things appearing |
+| Ease-in | `cubic-bezier(.4,0,1,1)` | things leaving |
+| Ease-in-out | `cubic-bezier(.4,0,.2,1)` | things moving from A to B |
+
+Rules: nothing over 300ms; no bounce or spring; only loading indicators move on their own; respect the device's "reduce motion" setting. **Approved patterns:** tooltip (fast, 4px rise), dropdown (fast, small scale from its corner), **save then toast** (spinner on the button while saving, a toast with Undo on success). **Rejected:** the slide-in side panel (see open question below).
 
 > [!todo] Not decided yet
-> **Where the design system lives** (its own repo, or a folder in the dashboard's repo). See [[Open Threads]].
+> **Side panel or not:** the slide-in side panel was rejected; is that the motion, or the pattern of opening details in a panel at all? If the pattern, details open in place (expanding row) or on their own page. And **where the design system lives** (its own repo, or a folder in the dashboard's repo). See [[Open Threads]].
 
 ## Where we are
 Principles, the approach, the font, colours, icon set, density and theme are set. **Tokens are done; components are next.** The order from here: the core components (tag, tooltip, table, card, button, and the apply-state pattern), then page patterns.

@@ -34,6 +34,7 @@ Learning and design questions only. Build work lives as issues in [GTM-Engine](h
 - [ ] **Design system: components next**, and decide where the design system lives (its own repo or a folder in the dashboard repo) ([[Dashboard Design System]]).
 
 ## Resolved
+- [x] Chart colours and motion → Tableau 10 reordered (red and green last); three speeds, three curves; tooltip, dropdown and save-then-toast approved ([[Dashboard Design System#Chart colours]]).
 - [x] Density, corners, shadows, theme → Compact · Medium · Subtle, light only ([[Dashboard Design System#Density, corners and shadows]]).
 - [x] Which icon set? → **Lucide**, the shadcn/ui default ([[Dashboard Design System#Icons]]).
 - [x] Which colours? → logo blue `#179CFF` as the accent, with darker steps for text and buttons; green and yellow chosen for readability ([[Dashboard Design System#Colour]]).
