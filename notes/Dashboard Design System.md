@@ -46,13 +46,30 @@ What was described ("a library of assets, rules and elements for every future pa
 - **Monospace for IDs, event names and code:** Geist Mono, as tested beside Inter. *(Tentative; swap if it doesn't sit well.)*
 
 ### Colour
-- **Base:** white, with grey neutrals for borders, secondary text and panels.
-- **Main accent: Galliot blue** (buttons, links, focus, selected states).
-- **Status colours:** green = done/success, amber = pending/waiting, red = failed, plus blue for info and one or two extra hues for categories (e.g. a violet for a source).
-- **Decision: Galliot's green and yellow *are* the success and pending colours, not separate brand accents.** If green were both "brand" and "done", nobody could tell which a green tag meant. Using the brand colours as the status colours makes brand and meaning line up instead of compete.
+**Decision (Nov 26): the main accent is the Galliot logo blue, `#179CFF`** (taken from the logo SVG on galliot.us; the wordmark is grey `#5A5A5A`). Green and yellow are **chosen for readability, not to match the brand**: clearly different in hue from the blue, so a status never looks like a link.
+
+> [!warning] Correction: the brand colour can't be the text colour
+> `#179CFF` on white is **2.9:1**, below the 4.5:1 that readable text needs. So the logo blue is used where it's a *fill*: highlights, icons, chart accents, the selected item's mark. Text and buttons use **darker steps of the same hue**. Same rule for yellow: yellow text on white is unreadable (1.8:1), so a yellow tag is **dark amber text on a pale yellow background**.
+
+| Token | Hex | Use | Contrast on white |
+| --- | --- | --- | --- |
+| Brand blue | `#179CFF` | highlights, icons, chart accent, focus ring | 2.9 (fill only) |
+| Button blue | `#0A6FD6` | primary buttons (white text), links | 4.9 |
+| Blue text | `#085BB5` | text on pale blue | 6.6 |
+| Green fill | `#16A34A` | dots, bars, success icons | 3.3 (fill only) |
+| Green text | `#15803D` | success tag text | 5.0 |
+| Yellow fill | `#F5B800` | dots, bars, highlights | 1.8 (fill only) |
+| Yellow-tag text | `#7A4F00` | pending tag text on `#FEF4D6` | 6.5 on its tint |
+| Red | `#B42318` | failed | 6.6 |
+| Logo grey | `#5A5A5A` | secondary text | 6.9 |
+
+The pattern behind it: **every hue gets a *fill* step and a *text* step.** A brand colour is chosen for recognition; a text colour has to pass a contrast check. One colour rarely does both.
+
+### Icons
+**Decision: use an existing open-source set, don't draw our own.** An icon set is hundreds of drawings that must share one grid, stroke and style; making that is a design project of its own. Candidates compared side by side in a test page with 37 dashboard meanings: **Lucide** (shadcn/ui's default, ISC), **Phosphor** (six weights, MIT), **Tabler** (largest, MIT), **Heroicons** (polished, smallest, MIT). *Choice pending.*
 
 > [!todo] Not decided yet
-> The exact Galliot hex codes (blue, grey, green, yellow); spacing scale and corner radius; dark mode or not; and **where the design system lives** (its own repo, or a folder in the dashboard's repo). See [[Open Threads]].
+> The icon set; spacing scale and corner radius; shadows; dark mode or not; and **where the design system lives** (its own repo, or a folder in the dashboard's repo). See [[Open Threads]].
 
 ## Where we are
-Principles, the approach and the font are set; colour has a rule but not its values. The order from here: finish tokens (exact colours, then spacing and radius), then the core components (tag, tooltip, table, card, button, and the apply-state pattern), then page patterns.
+Principles, the approach, the font and the colours are set; the icon set is being chosen. The order from here: finish tokens (exact colours, then spacing and radius), then the core components (tag, tooltip, table, card, button, and the apply-state pattern), then page patterns.
