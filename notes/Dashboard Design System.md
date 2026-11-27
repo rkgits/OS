@@ -97,6 +97,13 @@ The pattern behind it: **every hue gets a *fill* step and a *text* step.** A bra
 
 Supporting dark mode later means every token gets a second value (the night version of each colour) and every screen is checked twice. Defer it until someone asks; don't half-support it.
 
+### Versioning
+**Decision (Nov 26): tokens are versioned and can change as we use them.** Ship v1 now, adjust from real use, and release changes as a new version rather than editing values silently. A version number tells every page which set of decisions it was built on, so a change is a deliberate step that can be reviewed and rolled back.
+
+### Still to pick
+- **Chart colours**: a series palette kept separate from status colours, because a green or red line reads as "good" or "bad". Candidates compared on a test page: a custom palette led by the logo blue with no green or red, Tableau 10, Okabe-Ito (colour-blind safe), Observable 10, IBM Carbon.
+- **Motion**: proposed three speeds (150 / 200 / 300ms) and three curves (ease-out for entering, ease-in for leaving, ease-in-out for moving), no bounce, nothing over 300ms, respect "reduce motion".
+
 > [!todo] Not decided yet
 > **Where the design system lives** (its own repo, or a folder in the dashboard's repo). See [[Open Threads]].
 
