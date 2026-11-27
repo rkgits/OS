@@ -21,7 +21,7 @@ The pain point, in Reza's words: building GTM systems by **vibe coding** without
 | 2 | **Core data** | The central store, the shared model of people and accounts, the event log | [[Core Data Model]], [[Choosing the Store]] |
 | 3 | **Workers** | Jobs and AI agents that enrich, score and decide | [[Worker Coordination]], [[Form Intake Pipeline]], [[Message Triage and Sender Research]] |
 | 4 | **Actions** | Sending emails, updating the CRM, triggering campaigns | *(not covered yet)* |
-| 5 | **Interface** | The dashboard and controls | [[Dashboard Architecture]] |
+| 5 | **Interface** | The dashboard and controls | [[Dashboard Architecture]], [[Dashboard Design System]] |
 | 6 | **Running it** | Observability, security, deploys, cost | [[Observability]], [[Engineering Basics]], [[Personal Data and Retention]] |
 
 **Extensibility is not a seventh layer.** Plugins and add-ons come from **clean contracts between the layers**: a new tool is a new connector mapping into the same core model, and a new feature is a new worker reading the same events ([[Engine vs Core]], [[Worker Coordination]]).

@@ -64,6 +64,7 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 
 ## Interface (layer 5)
 - [[Dashboard Architecture]]: the password-protected inbox; authentication vs authorisation, the public key that isn't a secret, the definer view plus allowlist, why removing access is immediate, proving a safeguard by breaking it
+- [[Dashboard Design System]]: principles, tokens, components, patterns; Inter chosen; brand colours as status colours
 
 ## Running it (layer 6)
 - [[Engineering Basics]]: finish what you shipped, CI/CD, environments, secrets, limiting work in progress

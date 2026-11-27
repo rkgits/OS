@@ -2,7 +2,7 @@
 tags: [gtm-os, architecture, interface, security, decision]
 status: growing
 created: 2026-11-25
-updated: 2026-11-25
+updated: 2026-11-26
 aliases: [dashboard, interface layer, layer 5, authentication vs authorisation, definer view]
 ---
 
@@ -80,5 +80,7 @@ Charts, search, date ranges, export, editing or deleting data, mandatory two-ste
 ## Open
 - **Mandatory two-step verification?** See [[Open Threads]].
 - **How long do we keep the personal data this shows?** [[Personal Data and Retention]].
+
+How it should look and behave: [[Dashboard Design System]].
 
 Related: [[Webhook Ingress]] (the other front door), [[Two Log Streams]] (why the dashboard's numbers will come from business events), [[Recurring Lessons]]. Back to [[GTM OS - Map of Content]].
