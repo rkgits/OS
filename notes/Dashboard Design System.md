@@ -66,10 +66,12 @@ What was described ("a library of assets, rules and elements for every future pa
 The pattern behind it: **every hue gets a *fill* step and a *text* step.** A brand colour is chosen for recognition; a text colour has to pass a contrast check. One colour rarely does both.
 
 ### Icons
-**Decision: use an existing open-source set, don't draw our own.** An icon set is hundreds of drawings that must share one grid, stroke and style; making that is a design project of its own. Candidates compared side by side in a test page with 37 dashboard meanings: **Lucide** (shadcn/ui's default, ISC), **Phosphor** (six weights, MIT), **Tabler** (largest, MIT), **Heroicons** (polished, smallest, MIT). *Choice pending.*
+**Decision: use an existing open-source set, don't draw our own.** An icon set is hundreds of drawings that must share one grid, stroke and style; making that is a design project of its own. Candidates compared side by side in a test page with 37 dashboard meanings: **Lucide** (shadcn/ui's default, ISC), **Phosphor** (six weights, MIT), **Tabler** (largest, MIT), **Heroicons** (polished, smallest, MIT).
+
+**Decision (Nov 26): Lucide.** It ships with shadcn/ui, so every component we add already uses it; any other set would mean swapping icons inside each component. Its 2px rounded line matches Inter's weight at 16–20px, and at about 2,100 icons it covers a dense dashboard.
 
 > [!todo] Not decided yet
-> The icon set; spacing scale and corner radius; shadows; dark mode or not; and **where the design system lives** (its own repo, or a folder in the dashboard's repo). See [[Open Threads]].
+> Spacing scale and corner radius; shadows; dark mode or not; and **where the design system lives** (its own repo, or a folder in the dashboard's repo). See [[Open Threads]].
 
 ## Where we are
-Principles, the approach, the font and the colours are set; the icon set is being chosen. The order from here: finish tokens (exact colours, then spacing and radius), then the core components (tag, tooltip, table, card, button, and the apply-state pattern), then page patterns.
+Principles, the approach, the font, the colours and the icon set are set; density (spacing, corners, shadows) is next. The order from here: finish tokens (exact colours, then spacing and radius), then the core components (tag, tooltip, table, card, button, and the apply-state pattern), then page patterns.

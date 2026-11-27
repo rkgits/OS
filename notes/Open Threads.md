@@ -31,9 +31,10 @@ Learning and design questions only. Build work lives as issues in [GTM-Engine](h
 - [ ] **Should the email wait for research** (one email, but a failure mode), or go at once with research shown later? ([[Message Triage and Sender Research#Open]])
 - [ ] Moving from visualization to **action** from the dashboard, without welding the insight and action planes together.
 
-- [ ] **Design system: finish the tokens.** Icon set, spacing scale, corner radius, shadows, dark mode or not, and where the design system lives ([[Dashboard Design System]]).
+- [ ] **Design system: finish the tokens.** Spacing scale, corner radius, shadows, dark mode or not, and where the design system lives ([[Dashboard Design System]]).
 
 ## Resolved
+- [x] Which icon set? → **Lucide**, the shadcn/ui default ([[Dashboard Design System#Icons]]).
 - [x] Which colours? → logo blue `#179CFF` as the accent, with darker steps for text and buttons; green and yellow chosen for readability ([[Dashboard Design System#Colour]]).
 - [x] Which font for the dashboard? → **Inter**, after a side-by-side test with Geist and IBM Plex Sans ([[Dashboard Design System#Typography]]).
 - [x] One task or several for a multi-step worker? → split only where a step differs in kind (waits long, spends money, depends on an outside system); guard the rest ([[Message Triage and Sender Research#One task or several? A rule of thumb]]).
