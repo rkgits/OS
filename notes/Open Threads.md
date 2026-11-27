@@ -2,7 +2,7 @@
 tags: [gtm-os, todo]
 status: growing
 created: 2026-10-15
-updated: 2026-11-25
+updated: 2026-11-26
 ---
 
 # Open Threads
@@ -27,9 +27,13 @@ Learning and design questions only. Build work lives as issues in [GTM-Engine](h
 - [ ] Layers 4 and 5 of the [[System Map]]: actions, and the interface.
 - [ ] **Mandatory two-step verification for the dashboard?** It would need an extra check inside the view and locks a person out until they enrol; the access tests would need to simulate a second factor ([[Dashboard Architecture#Choices]], [GTM-Engine #12](https://github.com/galliot-us/GTM-Engine/issues/12)).
 - [ ] **How long do we keep personal data, field by field,** and how does erasure reach the copies (table, emails, backups)? ([[Personal Data and Retention]], [GTM-Engine #40](https://github.com/galliot-us/GTM-Engine/issues/40))
+- [ ] **Is Haiku good enough, and is 0.8 the right confidence threshold** for trusting a "promotion" label? Settle it with the evaluation on realistic messages, not opinion ([[Message Triage and Sender Research#Decisions, with the reasons]]).
+- [ ] **Should the email wait for research** (one email, but a failure mode), or go at once with research shown later? ([[Message Triage and Sender Research#Open]])
 - [ ] Moving from visualization to **action** from the dashboard, without welding the insight and action planes together.
 
 ## Resolved
+- [x] One task or several for a multi-step worker? → split only where a step differs in kind (waits long, spends money, depends on an outside system); guard the rest ([[Message Triage and Sender Research#One task or several? A rule of thumb]]).
+- [x] What are our working rules, in one place? → [[How We Work]].
 - [x] Which login system for the dashboard, and why not Cognito? → Supabase Auth, because Postgres can check the login directly ([[Dashboard Architecture#Choices]]).
 - [x] How can a browser read some data without being able to read the table? → one definer view with an allowlist guard, a security barrier and tight grants ([[Dashboard Architecture#Pattern: a definer view plus an allowlist]]).
 - [x] Is logging in enough to see the data? → No: authentication and authorisation are separate locks ([[Dashboard Architecture#Correction: logging in is not permission to read]]).

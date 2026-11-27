@@ -2,7 +2,7 @@
 tags: [moc, gtm-os]
 status: growing
 created: 2026-10-15
-updated: 2026-11-25
+updated: 2026-11-26
 aliases: [GTM OS MOC, Home]
 ---
 
@@ -59,12 +59,18 @@ Research notes for designing a company "OS": a scaled system of workers that ing
 - [[Form Intake Pipeline]]: first real build, **live (v0)**: website form → receiver → spam decision → email + business events; lessons from the first real submission
 - [[Form Submission Contract]]: the **verified** webhook payload, the plugin's own signing and retries, PHP quirks, plus the CloudEvents and Standard Webhooks standards
 
+## Workers (layer 3)
+- [[Message Triage and Sender Research]]: an AI labels each contact message; research on the right senders; the worker as a conductor of separate services; why a retry is dangerous; fail open
+
 ## Interface (layer 5)
 - [[Dashboard Architecture]]: the password-protected inbox; authentication vs authorisation, the public key that isn't a secret, the definer view plus allowlist, why removing access is immediate, proving a safeguard by breaking it
 
 ## Running it (layer 6)
 - [[Engineering Basics]]: finish what you shipped, CI/CD, environments, secrets, limiting work in progress
 - [[Personal Data and Retention]]: what counts as personal data, where the copies live, minimisation, retention and erasure (decision pending)
+
+## How we work
+- [[How We Work]]: the loop for every feature, the design rules, the habits, and the slips so far
 
 ## Open
 - [[Open Threads]]

@@ -2,7 +2,7 @@
 tags: [gtm-os, learning, summary]
 status: growing
 created: 2026-10-28
-updated: 2026-11-25
+updated: 2026-11-26
 aliases: [learning summary, brief, what I've learned]
 ---
 
@@ -26,6 +26,9 @@ aliases: [learning summary, brief, what I've learned]
 | "The source" | What the payload claims vs how it authenticated | [[Source Routing]] |
 | Authenticating | The sending *site* vs the *person* who typed | [[Source Routing]] |
 | Postponing | Deferring vs skipping | [[Engineering Basics]] |
+| A retry | Re-running a step vs repeating its side effect (money, email) | [[Message Triage and Sender Research#One task or several? A rule of thumb]] |
+| A feature request | What to build vs how it is shaped (design talk before code) | [[How We Work]] |
+| A mistake | The cheap one vs the costly one (design for which happens) | [[Message Triage and Sender Research#Decisions, with the reasons]] |
 | Signing in | Authentication (who are you) vs authorisation (what may you read) | [[Dashboard Architecture#Correction: logging in is not permission to read]] |
 | A key in a web page | Public key (identifies) vs secret key (grants power) | [[Dashboard Architecture#The key that is not a secret]] |
 | A login token | Who you are vs what you may do (checked on every request) | [[Dashboard Architecture#Why removing someone is immediate]] |
@@ -38,5 +41,6 @@ aliases: [learning summary, brief, what I've learned]
 - **Prove a safeguard by breaking it.** A check you've never seen fail is a belief ([[Dashboard Architecture#Proving it: a safeguard you've never seen fail is only a belief]]).
 - **Conflicts are resolved by designed rules, not opinions** ([[Survivorship]]).
 - **Limit work in progress** ([[Engineering Basics]]).
+- **Design before building:** explain the shape and the why, then let it be challenged ([[How We Work]]).
 
 Start from the map: [[System Map]].

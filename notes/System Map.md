@@ -2,7 +2,7 @@
 tags: [gtm-os, architecture, moc]
 status: growing
 created: 2026-10-28
-updated: 2026-11-25
+updated: 2026-11-26
 aliases: [six layers, the big picture, where to start]
 ---
 
@@ -19,7 +19,7 @@ The pain point, in Reza's words: building GTM systems by **vibe coding** without
 | --- | --- | --- | --- |
 | 1 | **Connectors** | Pulling from and receiving data from every tool | [[Ingestion Models]], [[Webhook Ingress]], [[Pull-Based Sync]], [[Source Routing]] |
 | 2 | **Core data** | The central store, the shared model of people and accounts, the event log | [[Core Data Model]], [[Choosing the Store]] |
-| 3 | **Workers** | Jobs and AI agents that enrich, score and decide | [[Worker Coordination]], [[Form Intake Pipeline]] |
+| 3 | **Workers** | Jobs and AI agents that enrich, score and decide | [[Worker Coordination]], [[Form Intake Pipeline]], [[Message Triage and Sender Research]] |
 | 4 | **Actions** | Sending emails, updating the CRM, triggering campaigns | *(not covered yet)* |
 | 5 | **Interface** | The dashboard and controls | [[Dashboard Architecture]] |
 | 6 | **Running it** | Observability, security, deploys, cost | [[Observability]], [[Engineering Basics]], [[Personal Data and Retention]] |
